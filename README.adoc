@@ -1,0 +1,37 @@
+= Browser Live-Reload for Quarkus 
+
+This extension allows an interactive development for standards-based JavaScript frontends by automatically refreshing the browser on any changes to your HTML, JavaScript or CSS files.
+Think of it as a link:https://www.browsersync.io/[browser-sync] that runs integrated in Quarkus dev-mode.
+
+You might ask: Why do I need this if I have my dev-server or browser-sync? Well, you might not if you have NPM on your system anyway or need a bundling or compilation-step as with Angular, React, etc.
+This might be interesting for people who want to get started on developing a simple web frontend with modern Browser standards and that don't require a bundling or transpilation-step.
+
+== Build
+
+Currently, this is not published to Maven Central; so you will need to build it yourself:
+
+[source, shell]
+----
+$ mvn install
+----
+
+== Usage
+
+Add the following dependency to a quarkus project `pom.xml`:
+
+[source, xml]
+----
+<dependency>
+    <groupId>de.dplatz</groupId>
+    <artifactId>quarkus-livereload-extension</artifactId>
+    <version>999-SNAPSHOT</version>
+</dependency>
+----
+
+When running your project with `mvn compile quarkus:dev`, open a browser to your frontend webapp.
+E.g. link:http://localhost:8080/index.html[].
+Maybe run with a clear cache (Shift+F5 in Chrome) so the browser loads a fresh page which will have the live-reload script injected.
+You can check this in your browser console. It should say "live-reload activated".
+
+Make a change to your files under `src/main/resources/META-INF/resources` of your project.
+On save, this should trigger a reload of the page.
