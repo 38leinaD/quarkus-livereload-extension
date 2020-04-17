@@ -1,10 +1,17 @@
 = Browser Live-Reload for Quarkus 
 
-This extension allows an interactive development for standards-based JavaScript frontends by automatically refreshing the browser on any changes to your HTML, JavaScript or CSS files.
-Think of it as a link:https://www.browsersync.io/[browser-sync] that runs integrated in Quarkus dev-mode.
+Think of this extension as a link:https://www.browsersync.io/[browser-sync] that runs integrated in Quarkus dev-mode.
+It provides a quick feedback-cycle when developing web frontends by automatically refreshing the browser on changes to your .HTML, JavaScript or CSS files.
 
-You might ask: Why do I need this if I have my dev-server or browser-sync? Well, you might not if you have NPM on your system anyway or need a bundling or compilation-step as with Angular, React, etc.
-This might be interesting for people who want to get started on developing a simple web frontend with modern Browser standards and that don't require a bundling or transpilation-step.
+== Motivation
+
+You might ask: Why do I need this if I have my dev-server or browser-sync?
+Well, you might not if you are a front-end developer and have NPM on your system anyway.
+Or your frontend needs a bundling or compilation-step as with Angular, React and friends.
+
+This is for people who want to get started on developing a web frontend that does not require a bundling or transpilation-step.
+A simple frontend like in the old days; or a modern frontend like possible with link:https://www.snowpack.dev/[Snowpack].
+Maybe you simply don't have NPM or browser-sync installed; or don't want to run a second tool/server and configure CORS (though it is simple in Quarkus). Who knows...
 
 == Build
 
