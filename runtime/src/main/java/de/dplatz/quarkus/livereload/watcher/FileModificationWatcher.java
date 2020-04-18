@@ -51,7 +51,9 @@ public class FileModificationWatcher {
     }
     
     public void shutdown(@Observes ShutdownEvent shutdown) {
-        watchThread.interrupt();
+        if (!ProfileManager.getActiveProfile().equals("dev")) return;
+        
+        if (watchThread != null) watchThread.interrupt();
     }
     
     void watch() {
