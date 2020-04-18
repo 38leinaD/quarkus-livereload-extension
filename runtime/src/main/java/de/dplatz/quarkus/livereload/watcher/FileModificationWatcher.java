@@ -42,7 +42,11 @@ public class FileModificationWatcher {
         if (!ProfileManager.getActiveProfile().equals("dev")) return;
 
         // TODO: What is the best/reliable way to get to src/main/resources?
+        // E.g. when running a command-mode application from VSCode via main-method, the user.dir is the project-root; not target-dir
+        // TODO: How to know we run as quarkus:dev; only here we want live-reload
         watchDir = Paths.get(System.getProperty("user.dir")).getParent().resolve("src/main/resources/META-INF/resources");
+        if (!watchDir.toFile().exists()) return;
+        
         log.info("Live-Reload is watching for changes @ "+ watchDir);
         
         // TODO: Use managed executor
