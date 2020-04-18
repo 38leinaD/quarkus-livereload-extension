@@ -5,6 +5,10 @@ It provides a quick feedback-cycle when developing web frontends by automaticall
 
 WARNING: This is still experimental and only works with the latest SNAPSHOT of Quarkus. Awaiting link:https://github.com/quarkusio/quarkus/issues/8546[this] fix to hit the next release.
 
+++++
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HlmRSdmEwcY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+++++
+
 == Motivation
 
 You might ask: Why do I need this if I have my dev-server or browser-sync?
