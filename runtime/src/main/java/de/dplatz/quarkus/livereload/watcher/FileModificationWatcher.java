@@ -5,7 +5,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
@@ -13,75 +12,73 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import javax.enterprise.inject.spi.CDI;
 
 import org.jboss.logging.Logger;
 
-import io.quarkus.runtime.ShutdownEvent;
-import io.quarkus.runtime.StartupEvent;
-import io.quarkus.runtime.configuration.ProfileManager;
+import io.quarkus.dev.spi.HotReplacementContext;
+import io.quarkus.dev.spi.HotReplacementSetup;
 
-@ApplicationScoped
-public class FileModificationWatcher {
+public class FileModificationWatcher implements HotReplacementSetup {
 
     private static Logger log = Logger.getLogger(FileModificationWatcher.class);
-    
-    @Inject
-    Event<FileModificationEvent> fileChangedEvents;
-    
+
+    private HotReplacementContext hotReplacementContext;
     private Thread watchThread;
-    private Path watchDir;
     private Map<WatchKey, Path> watchKeysForDirs = new HashMap<WatchKey, Path>();
 
-    public void init(@Observes StartupEvent startup) {
-        if (!ProfileManager.getActiveProfile().equals("dev")) return;
+    private WatchService watchService;
 
-        // TODO: What is the best/reliable way to get to src/main/resources?
-        // E.g. when running a command-mode application from VSCode via main-method, the user.dir is the project-root; not target-dir
-        // TODO: How to know we run as quarkus:dev; only here we want live-reload
-        watchDir = Paths.get(System.getProperty("user.dir")).getParent().resolve("src/main/resources/META-INF/resources");
-        if (!watchDir.toFile().exists()) return;
-        
-        log.info("Live-Reload is watching for changes @ "+ watchDir);
+    @Override
+    public void setupHotDeployment(HotReplacementContext context) {
+        this.hotReplacementContext = context;
         
         // TODO: Use managed executor
         watchThread = new Thread(this::watch);
         watchThread.start();
     }
     
-    public void shutdown(@Observes ShutdownEvent shutdown) {
-        if (!ProfileManager.getActiveProfile().equals("dev")) return;
-        
+    @Override
+    public void close() {
         if (watchThread != null) watchThread.interrupt();
     }
     
-    void watch() {
+    private void registerWatcherForResourceDir(Path srcDir) throws IOException {
+        log.info("Live-Reload is watching for changes @ "+ srcDir);
+
+        Files.walkFileTree(srcDir, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
+                    throws IOException {
+
+                WatchKey watchKey = dir.register(watchService,
+                        StandardWatchEventKinds.ENTRY_CREATE,
+                        // StandardWatchEventKinds.ENTRY_DELETE,
+                        StandardWatchEventKinds.ENTRY_MODIFY);
+                // StandardWatchEventKinds.OVERFLOW);
+
+                watchKeysForDirs.put(watchKey, dir);
+
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+    
+    private void watch() {
         try {
-            WatchService watchService = FileSystems.getDefault().newWatchService();
+            watchService = FileSystems.getDefault().newWatchService();
 
-            Files.walkFileTree(this.watchDir, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                        throws IOException {
-
-                    WatchKey watchKey = dir.register(watchService,
-                            StandardWatchEventKinds.ENTRY_CREATE,
-                            // StandardWatchEventKinds.ENTRY_DELETE,
-                            StandardWatchEventKinds.ENTRY_MODIFY);
-                    // StandardWatchEventKinds.OVERFLOW);
-
-                    watchKeysForDirs.put(watchKey, dir);
-
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-
-            // WatchKey watchKey = watchService.take();
+            List<Path> resourceDirs = this.hotReplacementContext.getResourcesDir();
+            
+            for (Path resourceDir : resourceDirs) {
+                Path webResourceDir = resourceDir.resolve("META-INF/resources");
+                if (!webResourceDir.toFile().exists()) continue;
+                
+                this.registerWatcherForResourceDir(webResourceDir);
+            }
 
             WatchKey key;
 
@@ -105,9 +102,9 @@ public class FileModificationWatcher {
         }
     }
 
-    void onFileChanged(Path p) {
+    private void onFileChanged(Path p) {
        log.debug("Detected file-change that triggers a reload of the browser: "+ p);
 
-       fileChangedEvents.fire(new FileModificationEvent(p));
+       CDI.current().getBeanManager().fireEvent(new FileModificationEvent(p));
     }
 }
