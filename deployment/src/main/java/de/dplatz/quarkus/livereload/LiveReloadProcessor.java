@@ -5,6 +5,7 @@ import javax.servlet.DispatcherType;
 import de.dplatz.quarkus.livereload.scriptinjection.LiveReloadScriptInjectionFilter;
 import de.dplatz.quarkus.livereload.watcher.FileModificationWatcher;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
+import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
@@ -16,7 +17,7 @@ class LiveReloadProcessor {
 
     static final String FEATURE_NAME = "livereload-extension";
 
-    @BuildStep
+    @BuildStep(onlyIf = IsDevelopment.class)
     void createAirhacksServlet(BuildProducer<FilterBuildItem> filter,
             BuildProducer<ReflectiveClassBuildItem> reflectiveClass,
             BuildProducer<AnnotatedWebsocketEndpointBuildItem> annotatedProducer,
@@ -36,7 +37,7 @@ class LiveReloadProcessor {
 
     }
 
-    @BuildStep
+    @BuildStep(onlyIf = IsDevelopment.class)
     FeatureBuildItem createFeatureItem() {
         return new FeatureBuildItem(FEATURE_NAME);
     }

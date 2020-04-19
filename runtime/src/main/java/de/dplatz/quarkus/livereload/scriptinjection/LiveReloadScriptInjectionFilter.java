@@ -24,11 +24,6 @@ public class LiveReloadScriptInjectionFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-
-        if (!ProfileManager.getActiveProfile().equals("dev")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         
         if (request instanceof HttpServletRequestImpl) {
             String url = ((HttpServletRequestImpl) request).getRequestURL().toString();
