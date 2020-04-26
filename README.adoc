@@ -26,6 +26,24 @@ Currently, this is not published to Maven Central; so you will need to build it 
 $ mvn install
 ----
 
+Or via link:https://jitpack.io/#38leinaD/quarkus-livereload-extension/master-SNAPSHOT[jitpack].
+
+[source,xml]
+----
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+...
+<dependency>
+    <groupId>com.github.38leinaD</groupId>
+    <artifactId>quarkus-livereload-extension</artifactId>
+    <version>master-SNAPSHOT</version>
+</dependency>
+----
+
 == Usage
 
 Add the following dependency to a quarkus project `pom.xml`:
