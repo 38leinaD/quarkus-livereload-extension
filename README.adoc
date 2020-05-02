@@ -17,7 +17,7 @@ This is for people who want to get started on developing a web frontend that doe
 A simple frontend like in the old days; or a modern frontend like possible with link:https://www.snowpack.dev/[Snowpack].
 Maybe you simply don't have NPM or browser-sync installed; or don't want to run a second tool/server and configure CORS (though it is simple in Quarkus). Who knows...
 
-== Build
+== Usage
 
 Currently, this is not published to Maven Central; so you will need to build it yourself:
 
@@ -26,7 +26,7 @@ Currently, this is not published to Maven Central; so you will need to build it 
 $ mvn install
 ----
 
-Or via link:https://jitpack.io/#38leinaD/quarkus-livereload-extension/master-SNAPSHOT[jitpack].
+Or via link:https://jitpack.io/#38leinaD/quarkus-livereload-extension/master-SNAPSHOT[jitpack] by adding the following repository to your `pom.xml`:
 
 [source,xml]
 ----
@@ -36,17 +36,10 @@ Or via link:https://jitpack.io/#38leinaD/quarkus-livereload-extension/master-SNA
         <url>https://jitpack.io</url>
     </repository>
 </repositories>
-...
-<dependency>
-    <groupId>com.github.38leinaD</groupId>
-    <artifactId>quarkus-livereload-extension</artifactId>
-    <version>master-SNAPSHOT</version>
-</dependency>
+
 ----
 
-== Usage
-
-Add the following dependency to a quarkus project `pom.xml`:
+Now, add the following dependency to a quarkus project `pom.xml`:
 
 [source, xml]
 ----
