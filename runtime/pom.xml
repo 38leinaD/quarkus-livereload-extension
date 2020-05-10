@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.38leinaD</groupId>
         <artifactId>quarkus-livereload-extension-parent</artifactId>
-        <version>999-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>        
     <artifactId>quarkus-livereload-extension</artifactId>
     <dependencies>
