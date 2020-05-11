@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.github.38leinaD</groupId>
         <artifactId>quarkus-livereload-extension-parent</artifactId>
-        <version>${revision}</version>
+        <version>999-SNAPSHOT</version>
     </parent>        
     <artifactId>quarkus-livereload-extension-deployment</artifactId>
     <dependencies>
@@ -31,7 +31,7 @@
             <version>${quarkus.version}</version>
         </dependency>
         <dependency>
-            <groupId>de.dplatz</groupId>
+            <groupId>com.github.38leinaD</groupId>
             <artifactId>quarkus-livereload-extension</artifactId>        
             <version>${project.version}</version>
         </dependency>
