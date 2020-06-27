@@ -50,8 +50,7 @@ public class LiveReloadScriptInjectionFilter implements Filter {
             }*/
             
             // Limit this filter to interfer only with requests to ".html" or the root "localhost:8080" resource.
-            if (this.isInterceptedResourceType(contextPath) || contextPath.equals("/") || contextPath.equals("")) {
-
+            if (this.isInterceptedResourceType(url) || url.endsWith("/")) {
                 ServletResponseWrapper wrappedResp = new ServletResponseWrapper((HttpServletResponse) response);
 
                 filterChain.doFilter(request, wrappedResp);
@@ -72,15 +71,19 @@ public class LiveReloadScriptInjectionFilter implements Filter {
                     }
                 }
             }
+            else {
+                filterChain.doFilter(request, response);
+            }
         }
         else {
             filterChain.doFilter(request, response);
         }
     }
     
-    private boolean isInterceptedResourceType(String contextPath) {
+    private boolean isInterceptedResourceType(String url) {
+        if (url.contains("javax.faces.resource")) return false;
         for (String extension : INTERCEPTED_RESOURCE_EXTENSIONS) {
-            if (contextPath.endsWith("." + extension)) return true;
+            if (url.endsWith("." + extension)) return true;
         }
         return false;
     }

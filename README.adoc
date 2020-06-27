@@ -7,6 +7,10 @@ WARNING: This is still experimental and only works with the latest SNAPSHOT of Q
 
 image::https://i.ytimg.com/vi/HlmRSdmEwcY/mqdefault.jpg[link="https://www.youtube.com/embed/HlmRSdmEwcY"]
 
+The extension also works together with the link:https://github.com/apache/myfaces/tree/master/extensions/quarkus[quarkus-myfaces extension] for JSF.
+
+image::https://i.ytimg.com/vi/hEt_gHGkB6U/mqdefault.jpg[link="https://youtu.be/hEt_gHGkB6U"]
+
 == Motivation
 
 You might ask: Why do I need this if I have my dev-server or browser-sync?
