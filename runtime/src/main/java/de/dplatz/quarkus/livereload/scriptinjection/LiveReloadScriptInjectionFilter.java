@@ -17,6 +17,8 @@ import io.undertow.servlet.spec.HttpServletRequestImpl;
 @WebFilter
 public class LiveReloadScriptInjectionFilter implements Filter {
     
+    private static final String[] INTERCEPTED_RESOURCE_EXTENSIONS = new String[] { "htm", "html", "xhtml" };
+            
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -48,7 +50,7 @@ public class LiveReloadScriptInjectionFilter implements Filter {
             }*/
             
             // Limit this filter to interfer only with requests to ".html" or the root "localhost:8080" resource.
-            if (contextPath.endsWith(".html") || contextPath.equals("/") || contextPath.equals("")) {
+            if (this.isInterceptedResourceType(contextPath) || contextPath.equals("/") || contextPath.equals("")) {
 
                 ServletResponseWrapper wrappedResp = new ServletResponseWrapper((HttpServletResponse) response);
 
@@ -74,6 +76,13 @@ public class LiveReloadScriptInjectionFilter implements Filter {
         else {
             filterChain.doFilter(request, response);
         }
+    }
+    
+    private boolean isInterceptedResourceType(String contextPath) {
+        for (String extension : INTERCEPTED_RESOURCE_EXTENSIONS) {
+            if (contextPath.endsWith("." + extension)) return true;
+        }
+        return false;
     }
     
     @Override
