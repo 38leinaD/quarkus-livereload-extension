@@ -23,7 +23,43 @@ Maybe you simply don't have NPM or browser-sync installed; or don't want to run 
 
 == Usage
 
-Currently, this is not published to Maven Central; so you will need to build it yourself:
+This extension is published via link:https://jitpack.io/#38leinaD/quarkus-livereload-extension[jitpack.io].
+
+For Maven, add the repository:
+
+[source,xml]
+----
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+----
+
+And add the dependency:
+
+----
+<dependency>
+    <groupId>com.github.38leinaD</groupId>
+    <artifactId>quarkus-livereload-extension</artifactId>
+    <version>master-SNAPSHOT</version>
+</dependency>
+----
+
+NOTE: You can find the examples for other build-tools like Gradle on the link:link:https://jitpack.io/#38leinaD/quarkus-livereload-extension[jitpack.io] page.
+
+When running your project with `mvn compile quarkus:dev`, open a browser to your frontend webapp.
+E.g. link:http://localhost:8080/index.html[].
+Maybe run with a clear cache (Shift+F5 in Chrome) so the browser loads a fresh page which will have the live-reload script injected.
+You can check this in your browser console. It should say "live-reload activated".
+
+Make a change to your files under `src/main/resources/META-INF/resources` of your project.
+On save, this should trigger a reload of the page.
+
+=== Build
+
+Here is how you can build the extension yourself, if you want.
 
 [source, shell]
 ----
@@ -47,11 +83,3 @@ If you are using Gradle, add the following to your project's `build.gradle`:
 ----
 implementation 'com.github.38leinaD:quarkus-livereload-extension:999-SNAPSHOT'
 ----
-
-When running your project with `mvn compile quarkus:dev`, open a browser to your frontend webapp.
-E.g. link:http://localhost:8080/index.html[].
-Maybe run with a clear cache (Shift+F5 in Chrome) so the browser loads a fresh page which will have the live-reload script injected.
-You can check this in your browser console. It should say "live-reload activated".
-
-Make a change to your files under `src/main/resources/META-INF/resources` of your project.
-On save, this should trigger a reload of the page.
