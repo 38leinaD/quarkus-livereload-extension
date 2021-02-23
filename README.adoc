@@ -1,7 +1,7 @@
 = Browser Live-Reload for Quarkus 
 
 Think of this extension as a link:https://www.browsersync.io/[browser-sync] that runs integrated in Quarkus dev-mode.
-It provides a quick feedback-cycle when developing web frontends by automatically refreshing the browser on changes to your .HTML, JavaScript or CSS files.
+It provides a quick feedback-cycle when developing web frontends by automatically refreshing the browser on changes to your HTML, JavaScript or CSS files.
 
 WARNING: This is still experimental and only works with the latest SNAPSHOT of Quarkus. Awaiting link:https://github.com/quarkusio/quarkus/issues/8546[this] fix to hit the next release.
 
