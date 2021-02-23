@@ -47,7 +47,7 @@ And add the dependency:
 </dependency>
 ----
 
-NOTE: You can find the examples for other build-tools like Gradle on the link:link:https://jitpack.io/#38leinaD/quarkus-livereload-extension[jitpack.io] page.
+NOTE: You can find the examples for other build-tools like Gradle on the link:https://jitpack.io/#38leinaD/quarkus-livereload-extension[jitpack.io] page.
 
 When running your project with `mvn compile quarkus:dev`, open a browser to your frontend webapp.
 E.g. link:http://localhost:8080/index.html[].
