@@ -43,7 +43,7 @@
                             <goal>extension-descriptor</goal>
                         </goals>
                         <configuration>
-                            <deployment>${project.groupId}:${project.artifactId}-deployment:999-SNAPSHOT</deployment>
+                            <deployment>${project.groupId}:${project.artifactId}-deployment:${buildVersion}</deployment>
                         </configuration>
                     </execution>
                 </executions>
@@ -53,5 +53,19 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>    
+        <buildVersion>999-SNAPSHOT</buildVersion>
+    </properties>
+    <profiles>
+        <profile>
+            <id>ci</id>
+            <activation>
+                <property>
+                    <name>env.VERSION</name>
+                </property>
+            </activation>
+            <properties>
+                <buildVersion>${env.VERSION}</buildVersion>
+            </properties>
+        </profile>
+    </profiles>
 </project>
