@@ -50,7 +50,7 @@ public class LiveReloadScriptInjectionFilter implements Filter {
             }*/
             
             // Limit this filter to interfer only with requests to ".html" or the root "localhost:8080" resource.
-            if (this.isInterceptedResourceType(url) || url.endsWith("/")) {
+            //if (this.isInterceptedResourceType(url) || url.endsWith("/")) {
                 ServletResponseWrapper wrappedResp = new ServletResponseWrapper((HttpServletResponse) response);
 
                 filterChain.doFilter(request, wrappedResp);
@@ -70,10 +70,10 @@ public class LiveReloadScriptInjectionFilter implements Filter {
                         response.getWriter().append(respBody);
                     }
                 }
-            }
+           /* }
             else {
                 filterChain.doFilter(request, response);
-            }
+            }*/
         }
         else {
             filterChain.doFilter(request, response);

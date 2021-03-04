@@ -74,10 +74,17 @@ public class FileModificationWatcher implements HotReplacementSetup {
             List<Path> resourceDirs = this.hotReplacementContext.getResourcesDir();
             
             for (Path resourceDir : resourceDirs) {
+                // Regular web resources
                 Path webResourceDir = resourceDir.resolve("META-INF/resources");
                 if (!webResourceDir.toFile().exists()) continue;
                 
                 this.registerWatcherForResourceDir(webResourceDir);
+
+                // Qute templates
+                Path quteTemplatesDir = resourceDir.resolve("templates");
+                if (!quteTemplatesDir.toFile().exists()) continue;
+
+                this.registerWatcherForResourceDir(quteTemplatesDir);
             }
 
             WatchKey key;
